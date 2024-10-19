@@ -5,10 +5,14 @@
   justify-content: space-between;
 }
 
-.productImg img {
+.productImg {
   width: 100%;
   height: 180px;
   background-color: #f2f2f2;
+  display: block;
+}
+.productImg img {
+  height: 100%;
   display: block;
 }
 
@@ -17,9 +21,9 @@
   margin-top: 9px;
   margin-bottom: 12px;
   width: 100%;
-  white-space: nowrap;
+  /* white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 
 .product h3 {
