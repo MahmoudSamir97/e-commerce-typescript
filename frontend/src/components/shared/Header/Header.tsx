@@ -1,7 +1,6 @@
 import { Badge, Container, Nav, Navbar } from "react-bootstrap";
 import { HeaderBasket } from "../../ecommerce";
 import { NavLink } from "react-router-dom";
-import styles from "./styles.module.css";
 
 const Header = () => {
   return (
@@ -24,9 +23,7 @@ const Header = () => {
               <Nav.Link as={NavLink} to="/">
                 Home
               </Nav.Link>
-              <Nav.Link as={NavLink} to="products/:prefix">
-                Products
-              </Nav.Link>
+
               <Nav.Link as={NavLink} to="categories">
                 Categories
               </Nav.Link>

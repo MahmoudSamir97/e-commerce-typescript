@@ -1,30 +1,22 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Product } from "@components/ecommerce";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import actGetProductsByCatPrefix from "@store/features/products/actions/actGetProductsByCatPrefix";
 import { productsCleanup } from "@store/features/products/productsSlice";
+import Loading from "@components/feedback/loading/Loading";
+import { GridList, Heading } from "@components/index";
 
 const Products = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
-
+  const cartItems = useAppSelector((state) => state.cart.items);
   const { loading, records, error } = useAppSelector((state) => state.products);
 
-  const productsList = records.length
-    ? records.map((record) => {
-        return (
-          <Col
-            xs={6}
-            md={3}
-            className="d-flex justify-content-center mb-5 mt-2"
-          >
-            <Product {...record} />
-          </Col>
-        );
-      })
-    : "there is no data";
+  const productsAllInfo = records.map((record) => {
+    return { ...record, quantity: cartItems[record.id] };
+  });
 
   useEffect(() => {
     dispatch(actGetProductsByCatPrefix(params.prefix as string));
@@ -36,7 +28,13 @@ const Products = () => {
 
   return (
     <Container>
-      <Row>{productsList}</Row>
+      <Heading>{params.prefix} Products</Heading>
+      <Loading error={error} status={loading}>
+        <GridList
+          records={productsAllInfo}
+          renderItems={(record) => <Product {...record} />}
+        />
+      </Loading>
     </Container>
   );
 };

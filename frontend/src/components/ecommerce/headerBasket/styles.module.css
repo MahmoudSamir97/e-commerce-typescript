@@ -2,7 +2,6 @@
   position: relative;
   cursor: pointer;
   margin-top: 0.45rem;
-  /* margin-right: 0.5rem; */
 }
 
 .basketQuantity {
@@ -16,4 +15,26 @@
   top: 0px;
   right: 1.57rem;
   font-size: 12px;
+}
+
+.pumpCartQuantity {
+  animation: pumping 300ms ease-out;
+}
+
+@keyframes pumping {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(0.8);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.7);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
