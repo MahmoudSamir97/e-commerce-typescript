@@ -1,14 +1,16 @@
-import Logo from "@assets/svg/cart.svg?react";
-import styles from "./styles.module.css";
-import { useAppSelector } from "@store/hooks";
-import { getTotalCartQuantitiesSelector } from "@store/features/cart/selectors";
 import { useEffect, useState } from "react";
+import { useAppSelector } from "@store/hooks";
+import Logo from "@assets/svg/cart.svg?react";
+import { getTotalCartQuantitiesSelector } from "@store/features/cart/selectors";
 import { debounce } from "src/utils/debounce";
+import { useNavigate } from "react-router-dom";
+import styles from "./styles.module.css";
 const { basketContainer, basketQuantity, pumpCartQuantity } = styles;
 
 const HeaderBasket = () => {
   const [isAnimate, setIsAnimate] = useState(false);
   const totalQantities = useAppSelector(getTotalCartQuantitiesSelector);
+  const navigate = useNavigate();
 
   const quantityStyle = `${basketQuantity} ${
     isAnimate ? pumpCartQuantity : ""
@@ -24,7 +26,7 @@ const HeaderBasket = () => {
   }, [totalQantities]);
 
   return (
-    <div className={basketContainer}>
+    <div className={basketContainer} onClick={() => navigate("/cart")}>
       <Logo />
       <div className={quantityStyle}>{totalQantities}</div>
     </div>

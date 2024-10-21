@@ -15,7 +15,7 @@ const Products = () => {
   const { loading, records, error } = useAppSelector((state) => state.products);
 
   const productsAllInfo = records.map((record) => {
-    return { ...record, quantity: cartItems[record.id] };
+    return { ...record, quantity: cartItems[record._id] };
   });
 
   useEffect(() => {

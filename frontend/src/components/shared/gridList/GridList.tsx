@@ -5,7 +5,7 @@ type TGridListProps<T> = {
   renderItems: (rec: T) => React.ReactNode;
 };
 
-type THasId = { id?: string };
+type THasId = { _id?: string };
 
 const GridList = <T extends THasId>({
   records,
@@ -17,7 +17,7 @@ const GridList = <T extends THasId>({
           <Col
             xs={6}
             md={3}
-            key={record.id}
+            key={record._id}
             className="d-flex justify-content-center mb-5 mt-2"
           >
             {renderItems(record)}

@@ -7,12 +7,15 @@ import { addToCart } from "@store/features/cart/cartSlice";
 import { debounce } from "src/utils/debounce";
 const { product, productImg, maximiumNotice } = styles;
 
-const Product = memo(({ img, title, price, id, max, quantity }: TProduct) => {
+const Product = memo(({ img, title, price, _id, max, quantity }: TProduct) => {
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
   const dispatch = useAppDispatch();
+  console.log(quantity, "quantity");
   const remainingQuantity = max - (quantity ?? 0);
 
   const quantityReachedToMax = remainingQuantity ? false : true;
+
+  console.log(remainingQuantity, "remainingQuantity");
 
   const debounceResetButton = useCallback(
     debounce(() => setIsBtnDisabled(false), 300),
@@ -26,7 +29,7 @@ const Product = memo(({ img, title, price, id, max, quantity }: TProduct) => {
   }, [isBtnDisabled, debounceResetButton]);
 
   const addToCartHandler = () => {
-    dispatch(addToCart(id));
+    dispatch(addToCart(_id));
     setIsBtnDisabled(true);
   };
 

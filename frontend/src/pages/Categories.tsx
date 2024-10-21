@@ -15,14 +15,14 @@ const Categories = () => {
 
   useEffect(() => {
     if (!records.length) dispatch(actGetCategories());
-  }, [dispatch]);
+  }, [dispatch, records.length]);
 
   return (
     <Container>
       <Loading status={loading} error={error}>
         <GridList
           records={records}
-          renderItems={(record) => <Category {...record} />}
+          renderItems={(record) => <Category key={record._id} {...record} />}
         />
       </Loading>
     </Container>
