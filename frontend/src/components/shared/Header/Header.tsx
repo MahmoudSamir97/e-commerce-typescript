@@ -1,5 +1,5 @@
 import { Badge, Container, Nav, Navbar } from "react-bootstrap";
-import { HeaderBasket } from "../../ecommerce";
+import { HeaderBasket, HeaderWishlist } from "../../ecommerce";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
@@ -32,6 +32,7 @@ const Header = () => {
               </Nav.Link>
             </Nav>
             <Nav>
+              <HeaderWishlist />
               <HeaderBasket />
               <Nav.Link as={NavLink} to="login">
                 Login

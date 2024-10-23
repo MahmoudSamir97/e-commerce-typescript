@@ -6,4 +6,5 @@ export type TProduct = {
   price: number;
   quantity?: number | undefined;
   max: number;
+  isLiked: boolean;
 };

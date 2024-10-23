@@ -7,6 +7,7 @@ import { CartItemList } from "@components/ecommerce";
 import {
   cartItemChangeQuantity,
   removeFromCart,
+  productsFullInfoCleanUp,
 } from "@store/features/cart/cartSlice";
 
 const Cart = () => {
@@ -16,6 +17,9 @@ const Cart = () => {
   );
   useEffect(() => {
     dispatch(actGetProductsByItems());
+    return () => {
+      dispatch(productsFullInfoCleanUp());
+    };
   }, [dispatch]);
 
   const products = productsFullInfo.map((el) => ({
