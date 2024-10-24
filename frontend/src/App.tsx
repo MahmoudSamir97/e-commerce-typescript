@@ -1,26 +1,55 @@
-import { MainLayout } from "@layouts/index";
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "@pages/Home";
-import Categories from "@pages/Categories";
-import Products from "@pages/Products";
-import AboutUs from "@pages/AboutUs";
-import Login from "@pages/Login";
-import Register from "@pages/Register";
-import Error from "@pages/Error";
-import Cart from "@pages/Cart";
-import Wishlist from "@pages/Wishlist";
+// Layout
+const MainLayout = lazy(() => import("@layouts/mainLayout/MainLayout"));
+// Pages
+const Home = lazy(() => import("@pages/Home"));
+const Categories = lazy(() => import("@pages/Categories"));
+const Products = lazy(() => import("@pages/Products"));
+const AboutUs = lazy(() => import("@pages/AboutUs"));
+const Login = lazy(() => import("@pages/Login"));
+const Register = lazy(() => import("@pages/Register"));
+const Error = lazy(() => import("@pages/Error"));
+const Cart = lazy(() => import("@pages/Cart"));
+const Wishlist = lazy(() => import("@pages/Wishlist"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
-    errorElement: <Error />,
+    element: (
+      <Suspense fallback="Loading please wait ...">
+        <MainLayout />
+      </Suspense>
+    ),
+    errorElement: (
+      <Suspense fallback="Loading please wait ...">
+        <Error />
+      </Suspense>
+    ),
     children: [
-      { index: true, element: <Home /> },
-      { path: "categories", element: <Categories /> },
+      {
+        index: true,
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: "categories",
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <Categories />
+          </Suspense>
+        ),
+      },
       {
         path: "categories/products/:prefix",
-        element: <Products />,
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <Products />
+          </Suspense>
+        ),
         loader: ({ params }) => {
           if (
             typeof params.prefix !== "string" ||
@@ -34,11 +63,46 @@ const router = createBrowserRouter([
           return true;
         },
       },
-      { path: "about-us", element: <AboutUs /> },
-      { path: "cart", element: <Cart /> },
-      { path: "wishlist", element: <Wishlist /> },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
+      {
+        path: "about-us",
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <AboutUs />
+          </Suspense>
+        ),
+      },
+      {
+        path: "cart",
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <Cart />
+          </Suspense>
+        ),
+      },
+      {
+        path: "wishlist",
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <Wishlist />
+          </Suspense>
+        ),
+      },
+      {
+        path: "login",
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <Login />
+          </Suspense>
+        ),
+      },
+      {
+        path: "register",
+        element: (
+          <Suspense fallback="Loading please wait ...">
+            <Register />
+          </Suspense>
+        ),
+      },
     ],
   },
 ]);

@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import actLikeToggle from "./actions/actLikeToggle";
-import { TLoading } from "@customTypes/shared";
-import { TProduct } from "@customTypes/product";
+import { isString, TLoading, TProduct } from "@types";
 import actGetWishlist from "./actions/actGetWishlist";
 
 type TInitialState = {
   itemsId: string[];
   productsFullInfo: TProduct[];
-  error: null | string;
+  error: string | null;
   loading: TLoading;
 };
 
@@ -22,7 +21,7 @@ const whishlistSlice = createSlice({
   name: "wishlist",
   initialState,
   reducers: {
-    productsFullInfoCleanUp: (state) => {
+    cleanUpWishlistProductsFullInfo: (state) => {
       state.productsFullInfo = [];
     },
   },
@@ -58,12 +57,12 @@ const whishlistSlice = createSlice({
     });
     builder.addCase(actGetWishlist.rejected, (state, action) => {
       state.loading = "failed";
-      if (action.payload && action.payload === "string") {
+      if (isString(action.payload)) {
         state.error = action.payload;
       }
     });
   },
 });
 
-export const { productsFullInfoCleanUp } = whishlistSlice.actions;
+export const { cleanUpWishlistProductsFullInfo } = whishlistSlice.actions;
 export default whishlistSlice.reducer;

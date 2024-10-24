@@ -1,44 +1,31 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import actGetWishlist from "@store/features/wishlist/actions/actGetWishlist";
 import { GridList, Heading } from "@components/index";
 import Loading from "@components/feedback/loading/Loading";
 import { Product } from "@components/ecommerce";
-import { productsFullInfoCleanUp } from "@store/features/wishlist/wishlistSlice";
+import useWishlist from "@hooks/useWishlist";
 
 const Wishlist = () => {
-  const dispatch = useAppDispatch();
-  const cartItems = useAppSelector((state) => state.cart.items);
-  const { loading, productsFullInfo, error } = useAppSelector(
-    (state) => state.whishlist
-  );
-  console.log(productsFullInfo, "productsFullInfo");
-  // const wishlistItemsId = useAppSelector((state) => state.whishlist.itemsId);
-
-  const records = productsFullInfo.map((el) => {
-    return {
-      ...el,
-      quantity: cartItems[el._id],
-      isLiked: true,
-    };
-  });
-
-  console.log(records, "records");
-
-  useEffect(() => {
-    dispatch(actGetWishlist());
-    return () => {
-      dispatch(productsFullInfoCleanUp());
-    };
-  }, [dispatch]);
+  const { error, loading, records } = useWishlist();
   return (
     <>
-      <Heading>Your Wishlist </Heading>
+      <Heading title="Your Wishlist" />
       <Loading error={error} status={loading}>
-        <GridList
-          records={records}
-          renderItems={(record) => <Product {...record} />}
-        />
+        {records.length ? (
+          <GridList
+            records={records}
+            renderItems={(record) => <Product {...record} />}
+          />
+        ) : (
+          <p
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "20%",
+            }}
+          >
+            Your Wishlist Is Empty!
+          </p>
+        )}
       </Loading>
     </>
   );

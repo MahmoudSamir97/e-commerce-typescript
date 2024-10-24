@@ -23,21 +23,20 @@
       "@pages/*": ["src/pages/*"],
       "@routes/*": ["src/routes/*"],
       "@customTypes/*": ["src/types/*"],
+      "@types": ["src/types/index"],
       "@store/*": ["src/store/*"],
       "@styles/*": ["src/styles/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@util/*": ["src/util/*"],
+      "@utils": ["src/utils/index"],
       "@services/*": ["src/services/*"]
     },
     /* Linting */
     "strict": true,
-    "composite": true, // <-- Add this
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
   "exclude": ["node_modules"],
-
   "references": [{ "path": "./tsconfig.node.json" }]
 }

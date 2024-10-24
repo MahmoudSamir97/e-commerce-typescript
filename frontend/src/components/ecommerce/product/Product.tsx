@@ -1,9 +1,8 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { TProduct } from "@customTypes/product";
+import { TProduct } from "@types";
 import { useAppDispatch } from "@store/hooks";
 import { addToCart } from "@store/features/cart/cartSlice";
-import { debounce } from "src/utils/debounce";
 import Like from "@assets/svg/like.svg?react";
 import LikeFilled from "@assets/svg/like-fill.svg?react";
 import actLikeToggle from "@store/features/wishlist/actions/actLikeToggle";
@@ -12,23 +11,22 @@ import { Button, Spinner } from "react-bootstrap";
 
 const Product = memo(
   ({ img, title, price, _id, max, quantity, isLiked }: TProduct) => {
+    const dispatch = useAppDispatch();
     const [isBtnDisabled, setIsBtnDisabled] = useState(false);
     const [loading, setIsLoading] = useState(false);
-    const dispatch = useAppDispatch();
     const remainingQuantity = max - (quantity ?? 0);
-
     const quantityReachedToMax = remainingQuantity ? false : true;
-
-    const debounceResetButton = useCallback(
-      debounce(() => setIsBtnDisabled(false), 300),
-      []
-    );
+    console.log("Fired!");
 
     useEffect(() => {
       if (!isBtnDisabled) return;
 
-      debounceResetButton();
-    }, [isBtnDisabled, debounceResetButton]);
+      const debounce = setTimeout(() => {
+        setIsBtnDisabled(false);
+      }, 300);
+
+      return () => clearTimeout(debounce);
+    }, [isBtnDisabled]);
 
     const addToCartHandler = () => {
       dispatch(addToCart(_id));

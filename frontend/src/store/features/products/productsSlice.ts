@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TLoading } from "@customTypes/shared";
+import { isString, TLoading, TProduct } from "@types";
 import actGetProductsByCatPrefix from "./actions/actGetProductsByCatPrefix";
-import { TProduct } from "@customTypes/product";
 
 interface ICategoriesInterface {
   records: TProduct[];
@@ -19,7 +18,7 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    productsCleanup: (state) => {
+    cleanupProductsRecords: (state) => {
       state.records = [];
     },
   },
@@ -35,16 +34,13 @@ const productsSlice = createSlice({
     });
 
     builder.addCase(actGetProductsByCatPrefix.rejected, (state, action) => {
-      //   casting
-      state.error = action.payload as string;
       state.loading = "failed";
-
-      //   if (action.payload && typeof action.payload === "string") {
-      //     state.error = action.payload;
-      //   }
+      if (isString(action.payload)) {
+        state.error = action.payload;
+      }
     });
   },
 });
 
-export const { productsCleanup } = productsSlice.actions;
+export const { cleanupProductsRecords } = productsSlice.actions;
 export default productsSlice.reducer;
