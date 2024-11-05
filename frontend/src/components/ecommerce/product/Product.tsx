@@ -16,7 +16,6 @@ const Product = memo(
     const [loading, setIsLoading] = useState(false);
     const remainingQuantity = max - (quantity ?? 0);
     const quantityReachedToMax = remainingQuantity ? false : true;
-    console.log("Fired!");
 
     useEffect(() => {
       if (!isBtnDisabled) return;

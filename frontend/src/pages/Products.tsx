@@ -10,8 +10,9 @@ const Products = () => {
   return (
     <Container>
       <Heading title={`${productPrefix} Products`} />
-      <Loading error={error} status={loading}>
+      <Loading error={error} status={loading} type="product">
         <GridList
+          emptyMessage="There are no products!"
           records={productsAllInfo}
           renderItems={(record) => <Product {...record} />}
         />

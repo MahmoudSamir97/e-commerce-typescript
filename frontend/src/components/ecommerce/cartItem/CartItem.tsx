@@ -21,7 +21,6 @@ const CartItem = memo(
     changeQuantityHandler,
     removeItemHandler,
   }: TCartItemProps) => {
-    console.log("render");
     const options = Array(max)
       .fill(0)
       .map((_, idx) => {

@@ -8,24 +8,12 @@ const Wishlist = () => {
   return (
     <>
       <Heading title="Your Wishlist" />
-      <Loading error={error} status={loading}>
-        {records.length ? (
-          <GridList
-            records={records}
-            renderItems={(record) => <Product {...record} />}
-          />
-        ) : (
-          <p
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "20%",
-            }}
-          >
-            Your Wishlist Is Empty!
-          </p>
-        )}
+      <Loading error={error} status={loading} type="product">
+        <GridList
+          emptyMessage="Your wishlist is empty!"
+          records={records}
+          renderItems={(record) => <Product {...record} />}
+        />
       </Loading>
     </>
   );

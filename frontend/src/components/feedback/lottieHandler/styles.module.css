@@ -1,0 +1,7 @@
+.msg {
+  font-size: 1.2rem;
+  margin-top: 0.85rem;
+}
+.errorMsg {
+  color: red;
+}

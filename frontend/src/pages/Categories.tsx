@@ -11,8 +11,9 @@ const Categories = () => {
   return (
     <Container>
       <Heading title="Categories" />
-      <Loading status={loading} error={error}>
+      <Loading status={loading} error={error} type="category">
         <GridList
+          emptyMessage="There are no categories!"
           records={records}
           renderItems={(record) => <Category key={record._id} {...record} />}
         />
