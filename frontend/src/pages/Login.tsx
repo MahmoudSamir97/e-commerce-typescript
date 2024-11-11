@@ -1,10 +1,17 @@
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Heading } from "@components/index";
 import Input from "@components/forms/input/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, loginTypes } from "@validations/loginSchema";
+import { Form, Button, Row, Col, Alert } from "react-bootstrap";
+import { useAppDispatch } from "@store/hooks";
+import { actAuthLogin } from "@store/features/auth/authSlice";
+
 const Login = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,6 +22,9 @@ const Login = () => {
   });
 
   const submitForm: SubmitHandler<loginTypes> = (data) => {
+    dispatch(actAuthLogin(data))
+      .unwrap()
+      .then(() => navigate("/"));
     console.log(data, "data");
   };
   return (
@@ -22,6 +32,11 @@ const Login = () => {
       <Heading title="User Login" />
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
+          {searchParams.get("message") === "activate_account" && (
+            <Alert variant="success">
+              please check your email to activate your account!
+            </Alert>
+          )}
           <Form onSubmit={handleSubmit(submitForm)}>
             <Input
               label="Email address"

@@ -5,6 +5,7 @@ import Error from "@pages/Error";
 const MainLayout = lazy(() => import("@layouts/mainLayout/MainLayout"));
 // animation
 import { PageSuspenseFallback, HomeFallback } from "@components/index";
+import Activation from "@pages/Activation";
 
 // Pages
 const Home = lazy(() => import("@pages/Home"));
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
             <Register />
           </PageSuspenseFallback>
         ),
+      },
+      {
+        path: "activation/:activation_token",
+        element: <Activation />,
       },
     ],
   },

@@ -3,7 +3,9 @@ import categories from "./features/categories/categoriesSlice";
 import products from "./features/products/productsSlice";
 import whishlist from "./features/wishlist/wishlistSlice";
 import cart from "./features/cart/cartSlice";
+import auth from "./features/auth/authSlice";
 import actGetProductsByItems from "./features/cart/actions/actGetProductsByItems";
+
 import {
   persistReducer,
   persistStore,
@@ -28,6 +30,7 @@ const wishlistPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+  auth,
   categories,
   products,
   cart: persistReducer(cartPersistConfig, cart),
