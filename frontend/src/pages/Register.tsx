@@ -1,60 +1,19 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col, Spinner } from "react-bootstrap";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Heading } from "@components/index";
-import { signupSchema, signupTypes } from "@validations/signupSchema";
-import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
 import Input from "@components/forms/input/Input";
-import { actAuthRegister } from "@store/features/auth/authSlice";
+import useRegister from "@hooks/useRegister";
 
 const Register = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const { loading, error } = useAppSelector((state) => state.auth);
   const {
+    loading,
+    error,
     register,
     handleSubmit,
-    trigger,
-    getFieldState,
-    formState: { errors },
-  } = useForm<signupTypes>({
-    mode: "onBlur",
-    resolver: zodResolver(signupSchema),
-  });
-
-  const {
-    checkEmailAvailability,
+    formErrors,
     isEmailAvailable,
-    enteredEmail,
-    resetCheckEmailAvailability,
-  } = useCheckEmailAvailability();
-
-  const submitForm: SubmitHandler<signupTypes> = (data) => {
-    const { firstName, lastName, email, password } = data;
-
-    dispatch(actAuthRegister({ firstName, lastName, email, password }))
-      .unwrap()
-      .then(() => {
-        navigate("/login?message=activate_account");
-      });
-  };
-
-  const onBlurHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
-    await trigger("email");
-    const value = e.target.value;
-    const { isDirty, invalid } = getFieldState("email");
-    if (isDirty && !invalid && enteredEmail !== value) {
-      // check
-      checkEmailAvailability(value);
-    }
-
-    if (isDirty && enteredEmail && !value.length) {
-      resetCheckEmailAvailability();
-    }
-  };
+    submitForm,
+    onBlurHandler,
+  } = useRegister();
 
   return (
     <>
@@ -66,21 +25,21 @@ const Register = () => {
               label="First name"
               name="firstName"
               register={register}
-              error={errors.firstName?.message}
+              error={formErrors.firstName?.message}
             />
             <Input
               label="Last name"
               name="lastName"
               register={register}
-              error={errors.lastName?.message}
+              error={formErrors.lastName?.message}
             />
             <Input
               label="Email address"
               name="email"
               register={register}
               error={
-                errors.email?.message
-                  ? errors.email?.message
+                formErrors.email?.message
+                  ? formErrors.email?.message
                   : isEmailAvailable === "notAvailable"
                   ? "This email is already in use!"
                   : isEmailAvailable === "failed"
@@ -104,14 +63,14 @@ const Register = () => {
               name="password"
               type="password"
               register={register}
-              error={errors.password?.message}
+              error={formErrors.password?.message}
             />
             <Input
               label="Confirm password"
               name="confirmPassword"
               type="password"
               register={register}
-              error={errors.confirmPassword?.message}
+              error={formErrors.confirmPassword?.message}
             />
             <Button
               variant="info"

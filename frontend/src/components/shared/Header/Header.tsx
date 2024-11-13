@@ -1,8 +1,21 @@
-import { Badge, Container, Nav, Navbar } from "react-bootstrap";
+import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import HeaderLeftBar from "@components/ecommerce/headerLeftBar/HeaderLeftBar";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { actAuthLogout } from "@store/features/auth/authSlice";
+import { useEffect } from "react";
+import actGetWishlist from "@store/features/wishlist/actions/actGetWishlist";
 
 const Header = () => {
+  const dispatch = useAppDispatch();
+  const { accessToken, user } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (accessToken) {
+      dispatch(actGetWishlist("productsId"));
+    }
+  }, [dispatch, accessToken]);
+
   return (
     <header>
       <Navbar
@@ -33,12 +46,32 @@ const Header = () => {
             </Nav>
             <Nav>
               <HeaderLeftBar />
-              <Nav.Link as={NavLink} to="login">
-                Login
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="register">
-                Register
-              </Nav.Link>
+
+              {accessToken ? (
+                <NavDropdown title={`Hi: ${user?.firstName}`}>
+                  <NavDropdown.Item as={NavLink} to={"/profile"}>
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>Orders</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item
+                    as={NavLink}
+                    to={"/"}
+                    onClick={() => dispatch(actAuthLogout())}
+                  >
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <>
+                  <Nav.Link as={NavLink} to="login">
+                    Login
+                  </Nav.Link>
+                  <Nav.Link as={NavLink} to="register">
+                    Register
+                  </Nav.Link>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

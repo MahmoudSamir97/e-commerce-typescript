@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { isString } from "@types";
+import axios from "@services/axios/axios-global";
+import { axiosErrorHandler } from "@utils";
 
 const Activation = () => {
   const { activation_token } = useParams();
-  const [error, setError] = useState<boolean | string>(false);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     if (activation_token) {
       const sendRequest = async () => {
         try {
-          const response = await axios.post(`/auth/activation`, {
+          await axios.post(`/auth/activation`, {
             activation_token,
           });
-          console.log(response, "response");
-        } catch (error) {
-          console.log(error, " error");
-          if (isString(error)) {
-            setError(error);
-          }
+        } catch (err) {
+          setError(axiosErrorHandler(err));
         }
       };
       sendRequest();
@@ -37,7 +33,7 @@ const Activation = () => {
       }}
     >
       {error ? (
-        <p>Your token is expired!</p>
+        <p> {error}</p>
       ) : (
         <p>Your account has been created suceessfully!</p>
       )}

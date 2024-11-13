@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@services/axios/axios-global";
 import { useState } from "react";
 
 type TStatus = "idle" | "pending" | "available" | "notAvailable" | "failed";
@@ -19,7 +19,7 @@ const useCheckEmailAvailability = () => {
         setIsEmailAvailable("notAvailable");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error, "error");
       setIsEmailAvailable("failed");
     }
   };

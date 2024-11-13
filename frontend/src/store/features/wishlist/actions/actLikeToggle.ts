@@ -1,23 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosPrivate } from "@services/axios/axios-global";
+import { RootState } from "@store/store";
 import { axiosErrorHandler } from "@utils";
-import axios from "axios";
 
 const actLikeToggle = createAsyncThunk(
   "wishlist/actLikeToggle",
-  async (id: string, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+  async (productId: string, thunkAPI) => {
+    const { rejectWithValue, getState } = thunkAPI;
+    const { auth } = getState() as RootState;
     try {
-      const response = await axios.get(`/wishlist/get-wishlist/dfsdgfrd/${id}`);
-      const isWishlistExist = response.data.wishlist;
+      const response = await axiosPrivate.get(
+        `/wishlist/get-wishlist/${auth.user?._id}/${productId}`
+      );
+
+      const isWishlistExist = response.data.product;
+
       if (isWishlistExist) {
-        await axios.delete(`/wishlist/delete/561465/${id}`);
-        return { type: "delete", id };
+        await axiosPrivate.delete(
+          `/wishlist/delete/${auth.user?._id}/${productId}`
+        );
+
+        return { type: "delete", id: productId };
       } else {
-        await axios.post("/wishlist/add", {
-          userId: "dfsdf6d2f",
-          productId: id,
+        await axiosPrivate.post("/wishlist/add", {
+          userId: auth.user?._id,
+          productId,
         });
-        return { type: "add", id };
+
+        return { type: "add", id: productId };
       }
     } catch (error) {
       return rejectWithValue(axiosErrorHandler(error));

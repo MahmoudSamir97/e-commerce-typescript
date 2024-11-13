@@ -22,7 +22,6 @@ const Input = <TFieldValue extends FieldValues>({
   formText,
   success,
 }: InputProps<TFieldValue>) => {
-  console.log(success, "success");
   const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     if (onBlur) {
       onBlur(e);

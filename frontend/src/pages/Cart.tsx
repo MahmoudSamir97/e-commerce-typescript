@@ -7,7 +7,6 @@ const Cart = () => {
   const { error, loading, changeQuantityHandler, removeItemHandler, products } =
     useCart();
 
-  console.log(products, "produ");
   return (
     <div>
       <Heading title="Cart" />

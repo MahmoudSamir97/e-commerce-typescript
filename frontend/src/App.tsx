@@ -6,6 +6,7 @@ const MainLayout = lazy(() => import("@layouts/mainLayout/MainLayout"));
 // animation
 import { PageSuspenseFallback, HomeFallback } from "@components/index";
 import Activation from "@pages/Activation";
+import ProtectedRoute from "@components/auth/ProtectedRoute";
 
 // Pages
 const Home = lazy(() => import("@pages/Home"));
@@ -16,6 +17,7 @@ const Login = lazy(() => import("@pages/Login"));
 const Register = lazy(() => import("@pages/Register"));
 const Cart = lazy(() => import("@pages/Cart"));
 const Wishlist = lazy(() => import("@pages/Wishlist"));
+const Profile = lazy(() => import("@pages/Profile"));
 
 const router = createBrowserRouter([
   {
@@ -82,9 +84,11 @@ const router = createBrowserRouter([
       {
         path: "wishlist",
         element: (
-          <PageSuspenseFallback>
-            <Wishlist />
-          </PageSuspenseFallback>
+          <ProtectedRoute>
+            <PageSuspenseFallback>
+              <Wishlist />
+            </PageSuspenseFallback>
+          </ProtectedRoute>
         ),
       },
       {
@@ -101,6 +105,16 @@ const router = createBrowserRouter([
           <PageSuspenseFallback>
             <Register />
           </PageSuspenseFallback>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute>
+            <PageSuspenseFallback>
+              <Profile />
+            </PageSuspenseFallback>
+          </ProtectedRoute>
         ),
       },
       {
